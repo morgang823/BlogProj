@@ -1,0 +1,44 @@
+﻿@model BlogProj.Models.Blog
+@using BlogProj.Services
+@inject IBlogFileService _imageService
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="text-white">Details</h1>
+
+<div>
+    <h4 class="text-white">Blog: @Html.DisplayFor(model => model.Title)</h4>
+    <hr />
+    <img id="ProfileImage" class="img-fluid" src="@_imageService.DecodeImage(Model.ImageData, Model.ContentType)" />
+    <dl class="row text-white font-weight-bold">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Created):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Updated):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Updated)
+        </dd>
+    </dl>
+</div>
+<div class="btn btn-warning">
+    <a class="text-black" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a class="text-black" asp-action="Index">Back to List</a>
+</div>

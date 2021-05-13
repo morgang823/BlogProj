@@ -1,0 +1,51 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@using BlogProj.Services
+@inject IBlogFileService _fileService
+@model IPagedList<Post>
+
+@{
+    ViewData["Title"] = "Search Results Page";
+}
+
+
+@foreach (var post in Model)
+{
+    <section class="blog-list px-3 py-5 p-md-5">
+        <div class="container">
+            <div class="item mb-5">
+                <div class="media">
+                    <img class="img-fluid" src=@_fileService.DecodeImage(post.ImageData, post.ContentType) />
+                    <div class="media-body">
+                        <h3 class="title mb-1 text-white font-weight-bolder">@post.Title</h3>
+                        <div class="meta mb-1 text-white font-weight-bolder"><span class="date">@post.Created</span><span class="time">5 min read</span></div>
+                        <div class="intro text-white font-weight-bolder">@post.Abstract</div>
+                        <a class="more-link btn btn-warning" asp-controller="Posts" asp-action="Details" asp-route-slug="@post.Id">Read Details &rarr;</a>
+                    </div><!--//media-body-->
+                </div><!--//media-->
+            </div><!--//item-->
+            <nav class="blog-nav nav nav-justified my-5">
+                <a class="nav-link-next nav-item nav-link rounded" href="#">View More Posts<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
+            </nav>
+        </div>
+        <hr />
+    </section>
+}
+
+<div class="row">
+    <div class="col h3">
+        Page @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) of @Model.PageCount
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @Html.PagedListPager(Model, page => Url.Action("SearchIndex", new { page = page, searchString = ViewData["SearchString"] }),
+       new PagedListRenderOptions
+       {
+           LiElementClasses = new string[] { "page-item" },
+           PageClasses = new string[] { "page-link" }
+       })
+    </div>
+</div>

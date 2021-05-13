@@ -1,0 +1,50 @@
+﻿@model IEnumerable<BlogProj.Models.Blog>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-white">Index</h1>
+
+<p class="text-white">
+    <a class="btn btn-warning" asp-action="Create">Create New</a>
+</p>
+<table class="table table-warning">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+             @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+               Created by Gianni Morgan on @Html.DisplayFor(modelItem => item.Created)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Updated)
+            </td>
+            <td class="btn btn-warning">
+                <a class="text-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a class="text-dark" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a class="text-dark" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

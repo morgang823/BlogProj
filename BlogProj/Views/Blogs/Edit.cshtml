@@ -1,0 +1,47 @@
+﻿@model BlogProj.Models.Blog
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 class="text-white">Edit</h1>
+
+<h4 class="text-white">Blog: @Html.DisplayFor(model => model.Title)</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-black"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Created" />
+            <input type="hidden" asp-for="ImageData" />
+            <input type="hidden" asp-for="ContentType" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label text-white font-weight-bold"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label text-white font-weight-bold"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-black"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label text-white font-weight-bold"></label>
+                <input type="file" asp-for="ImageFile" class="form-control-file" />
+                <span asp-validation-for="ImageFile" class="text-black"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-warning" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-warning" asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

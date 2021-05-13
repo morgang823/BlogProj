@@ -1,0 +1,86 @@
+﻿@model BlogProj.Models.Post
+@using BlogProj.Services
+@inject IBlogFileService _fileService
+@{
+    ViewData["Title"] = "Details";
+}
+<div>
+    <h4 class="text-white">Blog: @Html.DisplayFor(model => model.Title)</h4>
+    <hr />
+    <img id="ProfileImage" class="img-fluid" src="@_fileService.DecodeImage(Model.ImageData, Model.ContentType)" />
+    <dl class="row text-white font-weight-bold">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Abstract):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Abstract)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Created):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Updated):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Updated)
+        </dd>
+    </dl>
+</div>
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                @Html.Raw(Model.Content)
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr />
+
+@*Task 1: Prompt the anonymous user to login to add a comment*@
+@if (!User.Identity.IsAuthenticated)
+{
+    <a class="btn-dark btn-block btn-sm rounded" asp-area="Identity"
+       asp-page="/Account/Login"
+       asp-route-returnUrl="@Url.Action("Details", "Posts", new { id = Model.Id})">Login to add a comment</a>
+}
+else
+{
+    <div class="row">
+        <div class="col">
+            <h3 class="text-center">ADD COMMENT</h3>
+            <form asp-action="Create" asp-controller="Comments" method="post">
+                <input type="hidden" name="PostId" value="@Model.Id" />
+                <textarea name="Body" rows="10" class="form-control"></textarea>
+                <button class="btn btn-dark btn-block btn-sm" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+}
+
+<hr />
+<div class="btn-sm btn-dark btn-block">@Model.Comments.Count Comment(s)</div>
+@foreach (var comment in Model.Comments.OrderByDescending(c => c.Created))
+{
+    <div class="row">
+        <div class="col">
+            <div class="media border p-3">
+                <img src="@_fileService.DecodeImage(comment.Author.ImageData, comment.Author.ContentType)" alt="@comment.Author.FullName" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                <div class="media-body">
+                    <h4>@comment.Author.FullName <small><i>Posted on @comment.Created.ToString("MMM dd, yyyy")</i></small></h4>
+                    <p>@comment.Body</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
