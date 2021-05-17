@@ -15,14 +15,14 @@ namespace BlogProj.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IBlogFileService _fileSercvice;
+        private readonly IBlogFileService _fileService;
         private readonly UserManager<BlogUser> _userManager;
         private readonly IConfiguration _configuration;
         public DataService(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, IBlogFileService fileSercvice, UserManager<BlogUser> userManager, IConfiguration configuration)
         {
             _context = context;
             _roleManager = roleManager;
-            _fileSercvice = fileSercvice;
+            _fileService = fileSercvice;
             _userManager = userManager;
             _configuration = configuration;
         }
@@ -63,10 +63,9 @@ namespace BlogProj.Services
                 Email = "Morgang823@gmail.com",
                 FirstName = "Gianni",
                 LastName = "Morgan",
-                Password = "AdminPassword",
                 PhoneNumber = "884-1428",
                 EmailConfirmed = true,
-                ImageData = await _fileSercvice.EncodeFileAsync("Propic.jpg"),
+                ImageData = await _fileService.EncodeFileAsync("Propic.jpg"),
                 ContentType = "jpg"
             };
             var modUser = new BlogUser()
@@ -76,15 +75,14 @@ namespace BlogProj.Services
                 Email = "cfPersonnel@mailinator.com",
                 FirstName = "Moderator",
                 LastName = "Moderator User",
-                Password = "modPassword",
                 PhoneNumber = "867-5309",
                 EmailConfirmed = true,
-                ImageData = await _fileSercvice.EncodeFileAsync("Gman.png"),
+                ImageData = await _fileService.EncodeFileAsync("Gman.png"),
                 ContentType = "png"
             };
             await _userManager.CreateAsync(adminUser, _configuration["AdminPassword"]);
             await _userManager.AddToRoleAsync(adminUser, BlogRole.Administrator.ToString());
-            await _userManager.CreateAsync(modUser, _configuration["modPassword"]);
+            await _userManager.CreateAsync(modUser, _configuration["ModPassword"]);
             await _userManager.AddToRoleAsync(modUser, BlogRole.Moderator.ToString());
 
         }
