@@ -18,11 +18,11 @@ namespace BlogProj.Services
         private readonly IBlogFileService _fileService;
         private readonly UserManager<BlogUser> _userManager;
         private readonly IConfiguration _configuration;
-        public DataService(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, IBlogFileService fileSercvice, UserManager<BlogUser> userManager, IConfiguration configuration)
+        public DataService(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, IBlogFileService fileService, UserManager<BlogUser> userManager, IConfiguration configuration)
         {
             _context = context;
             _roleManager = roleManager;
-            _fileService = fileSercvice;
+            _fileService = fileService;
             _userManager = userManager;
             _configuration = configuration;
         }
