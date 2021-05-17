@@ -34,7 +34,7 @@ namespace BlogProj.Services
             //Task 1 SeedRoles  -Creating Roles and entering them into systems
             await SeedRolesAsync();
 
-            //Task2 Seed a few users in teh system(ASPNetUsers)
+            //Task2 Seed a few users in the system(ASPNetUsers)
             await SeedUsersAsync();
 
         }
