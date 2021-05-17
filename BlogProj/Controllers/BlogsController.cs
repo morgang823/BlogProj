@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Http;
 using BlogProj.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
+using X.PagedList;
 
 namespace BlogProj.Controllers
 {
+    [Authorize(Roles ="Administrator")]
     public class BlogsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -27,12 +29,23 @@ namespace BlogProj.Controllers
         }
 
         // GET: Blogs
-        public async Task<IActionResult> Index()
+        [AllowAnonymous]
+        public async Task<IActionResult> Index(int? page = 1)
         {
-            return View(await _context.Blogs.ToListAsync());
+            ViewData["HeaderText"] = "The Landing Page";
+            ViewData["SubText"] = "Welcome to My Landing Page";
+
+            var pageNumber = page ?? 1;
+            var pageSize = 4;
+            //Load the view up with all Blog data
+            var allBlogs = await _context.Blogs.OrderByDescending(b => b.Created).ToPagedListAsync(pageNumber, pageSize);
+
+            return View(allBlogs);
         }
 
         // GET: Blogs/Details/5
+        [AllowAnonymous]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

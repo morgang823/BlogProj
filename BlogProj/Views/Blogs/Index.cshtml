@@ -1,50 +1,73 @@
-﻿@model IEnumerable<BlogProj.Models.Blog>
+﻿@using BlogProj.Models
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@using BlogProj.Services
+@using X.PagedList
+@inject IBlogFileService _fileService
+@model IPagedList<Blog>
+
+
+
+@inject IBlogFileService _fileService
+
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1 class="text-white">Index</h1>
-
-<p class="text-white">
-    <a class="btn btn-warning" asp-action="Create">Create New</a>
-</p>
-<table class="table table-warning">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-             @Html.DisplayNameFor(model => model.Created)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-               Created by Gianni Morgan on @Html.DisplayFor(modelItem => item.Created)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Updated)
-            </td>
-            <td class="btn btn-warning">
-                <a class="text-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a class="text-dark" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a class="text-dark" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@if (User.IsInRole("Administrator"))
+{
+    <p class="text-white">
+        <a class="btn btn-warning" asp-action="Create">Create New</a>
+    </p>
 }
-    </tbody>
-</table>
+<div class="container container-fluid">
+    @foreach (var blog in Model)
+    {
+        <div class="row">
+            <div class="col-4">
+
+                <div class="item mb-5">
+                    <div class="media">
+                        <img class="img-fluid" style="width:100%" src=@_fileService.DecodeImage(blog.ImageData, blog.ContentType) alt="card image cap">
+                    </div><!--//media-->
+                </div>
+                <div class="col-8">
+                    <div class="media-body">
+                        <h3 class="title mb-1">@Html.DisplayFor(modelItem => blog.Title)</h3>
+                        <div class="meta mb-1"><span class="date">Last Updated on: @Html.DisplayFor(modelItem => blog.Updated)</span></div>
+                        <div class="intro">
+                            @Html.DisplayFor(modelItem => blog.Description)
+                        </div>
+                        <a class="more-link" href="blog-post.html">Read Posts in this series &rarr;</a>
+                    </div><!--//media-body-->
+                </div><!--//item-->
+            </div>
+            @if (User.IsInRole("Administrator"))
+            {
+                <div class="btn btn-warning">
+                    <a class="text-dark" asp-action="Edit" asp-route-id="@blog.Id">Edit</a> |
+                    <a class="text-dark" asp-action="Details" asp-route-id="@blog.Id">Details</a> |
+                    <a class="text-dark" asp-action="Delete" asp-route-id="@blog.Id">Delete</a>
+                </div>
+            }
+        </div>
+        <hr />
+    }
+</div>
+<div class="row">
+    <div class="col h3">
+        Page @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) of @Model.PageCount
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+       new PagedListRenderOptions
+       {
+           LiElementClasses = new string[] { "page-item" },
+           PageClasses = new string[] { "page-link" }
+       })
+    </div>
+</div>

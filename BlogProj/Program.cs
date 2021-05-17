@@ -13,11 +13,14 @@ namespace BlogProj
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             //CreateHostBuilder(args).Build().Run();
             var host = CreateHostBuilder(args).Build();
             var dataService = host.Services.CreateScope().ServiceProvider.GetRequiredService<DataService>();
+
+             await dataService.ManageDataAsync();
+
                 host.Run();
         }
 

@@ -46,7 +46,7 @@ namespace BlogProj.Models
             return View("Index", blogPosts);
         }
         // GET: Posts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page = 1)
         {
             ViewData["HeaderText"] = "The Post Index";
             ViewData["SubText"] = "Read all my glorious posts";

@@ -58,18 +58,35 @@ namespace BlogProj.Services
             }
             var adminUser = new BlogUser()
             {
+                UserName = "Morgang823@gmail.com",
+                DisplayName = "Gianni The Boss",
                 Email = "Morgang823@gmail.com",
-                UserName = "Morgang823",
                 FirstName = "Gianni",
                 LastName = "Morgan",
+                Password = "AdminPassword",
                 PhoneNumber = "884-1428",
                 EmailConfirmed = true,
                 ImageData = await _fileSercvice.EncodeFileAsync("Propic.jpg"),
                 ContentType = "jpg"
             };
-
+            var modUser = new BlogUser()
+            {
+                UserName = "cfPersonnel@mailinator.com",
+                DisplayName = "Moderator",
+                Email = "cfPersonnel@mailinator.com",
+                FirstName = "Moderator",
+                LastName = "Moderator User",
+                Password = "modPassword",
+                PhoneNumber = "867-5309",
+                EmailConfirmed = true,
+                ImageData = await _fileSercvice.EncodeFileAsync("Gman.png"),
+                ContentType = "png"
+            };
             await _userManager.CreateAsync(adminUser, _configuration["AdminPassword"]);
             await _userManager.AddToRoleAsync(adminUser, BlogRole.Administrator.ToString());
+            await _userManager.CreateAsync(modUser, _configuration["modPassword"]);
+            await _userManager.AddToRoleAsync(modUser, BlogRole.Moderator.ToString());
+
         }
     }
 }

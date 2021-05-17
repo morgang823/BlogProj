@@ -35,6 +35,7 @@ namespace BlogProj.Models
         //Navagational Properties
         public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();//relational connect. Parent to child. Blog to Posts
 
+
       
     }
 }

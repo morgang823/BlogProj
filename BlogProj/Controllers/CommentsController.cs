@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using BlogProj.Data;
 using BlogProj.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BlogProj.Controllers
 {
+    
     public class CommentsController : Controller
 {
         private readonly ApplicationDbContext _context;
@@ -78,6 +80,7 @@ namespace BlogProj.Controllers
         }
 
         // GET: Comments/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,6 +102,7 @@ namespace BlogProj.Controllers
         // POST: Comments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,AuthorID,Body,Created,Moderated,ModeratedBody,ModertationType")] Comment comment)

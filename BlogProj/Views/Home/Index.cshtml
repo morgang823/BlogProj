@@ -10,28 +10,28 @@
 }
 
 
-@foreach (var blog in Model)
-{
-    <section class="blog-list px-3 py-5 p-md-5">
-        <div class="container">
-            <div class="item mb-5">
-                <div class="media">
-                    <img src=@_fileService.DecodeImage(blog.ImageData, blog.ContentType) />
-                    <div class="media-body">
-                        <h3 class="title mb-1 text-white font-weight-bolder">@blog.Title</h3>
-                        <div class="meta mb-1 text-white font-weight-bolder"><span class="date">@blog.Created</span><span class="time">5 min read</span></div>
-                        <div class="intro text-white font-weight-bolder">@blog.Description</div>
-                        <a class="more-link btn btn-warning" asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">Read more &rarr;</a>
-                    </div><!--//media-body-->
-                </div><!--//media-->
-            </div><!--//item-->
-            <nav class="blog-nav nav nav-justified my-5">
-                <a class="nav-link-next nav-item nav-link rounded" href="#">View More Posts<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
-            </nav>
+<section class="blog-list px-3 py-5 p-md-5">
+    <div class="container">
+        <div class="row">
+
+            @foreach (var blog in Model)
+
+            {
+                <div class="col-4">
+                    <div class="card" style="width: 18rem; height:max-content">
+                        <img class="card-img-top" src=@_fileService.DecodeImage(blog.ImageData, blog.ContentType) alt="card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">@blog.Title</h5>
+                            <p class="card-text">@blog.Description</p>
+                            <a class="more-link btn btn-warning" asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">Read more &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
-        <hr />
-    </section>
-}
+    </div>
+    <hr />
+</section>
 
 <div class="row">
     <div class="col h3">
@@ -41,19 +41,11 @@
 
 <div class="row">
     <div class="col">
-        @Html.PagedListPager(Model, page=> Url.Action("Index", new { page = page}),
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
        new PagedListRenderOptions
        {
-           LiElementClasses = new string[] {"page-item"},
-           PageClasses = new string[] {"page-link"}
+           LiElementClasses = new string[] { "page-item" },
+           PageClasses = new string[] { "page-link" }
        })
     </div>
 </div>
-@*<div class="card" style="width: 18rem;">
-    <img class="card-img-top" src=@_fileService.DecodeImage(blog.ImageData, blog.ContentType) alt="Card image cap">
-    <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-</div>*@

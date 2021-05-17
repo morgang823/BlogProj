@@ -31,7 +31,7 @@ namespace BlogProj.Controllers
             ViewData["SubText"] = "Welcome to My Landing Page";
 
             var pageNumber = page ?? 1;
-            var pageSize = 5;
+            var pageSize = 4;
             //Load the view up with all Blog data
             var allBlogs = await _context.Blogs.OrderByDescending(b => b.Created).ToPagedListAsync(pageNumber, pageSize);
 

@@ -32,5 +32,7 @@ namespace BlogProj.Models
                 return $"{FirstName} {LastName}";
             }
         }
+
+        public string Password { get; internal set; }
     }
 }
