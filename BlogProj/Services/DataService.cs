@@ -65,7 +65,7 @@ namespace BlogProj.Services
                 LastName = "Morgan",
                 PhoneNumber = "884-1428",
                 EmailConfirmed = true,
-                ImageData = await _fileService.EncodeFileAsync("Propic.jpg"),
+                ImageData = await _fileService.EncodeFileAsync("defaultBlogImage.png"),
                 ContentType = "jpg"
             };
             var modUser = new BlogUser()
@@ -77,7 +77,7 @@ namespace BlogProj.Services
                 LastName = "Moderator User",
                 PhoneNumber = "867-5309",
                 EmailConfirmed = true,
-                ImageData = await _fileService.EncodeFileAsync("Gman.png"),
+                ImageData = await _fileService.EncodeFileAsync("defaultUserImage.png"),
                 ContentType = "png"
             };
             await _userManager.CreateAsync(adminUser, _configuration["AdminPassword"]);
