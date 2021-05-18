@@ -1,5 +1,7 @@
 ﻿@model BlogProj.Models.Post
 @using BlogProj.Services
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<BlogUser> userManager
 @inject IBlogFileService _fileService
 @{
     ViewData["Title"] = "Details";
@@ -37,10 +39,9 @@
 </div>
 <article>
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                @Html.Raw(Model.Content)
-            </div>
+        <div class="row text-white">
+            @Html.DisplayNameFor(model => model.Content):<br />
+            @Html.Raw(Model.Content)
         </div>
     </div>
 </article>
@@ -52,17 +53,17 @@
 {
     <a class="btn-dark btn-block btn-sm rounded" asp-area="Identity"
        asp-page="/Account/Login"
-       asp-route-returnUrl="@Url.Action("Details", "Posts", new { id = Model.Id})">Login to add a comment</a>
+       asp-route-returnUrl="@Url.Action("Details", "Posts", new { Slug = Model.Slug})">Login to add a comment</a>
 }
 else
 {
     <div class="row">
         <div class="col">
-            <h3 class="text-center">ADD COMMENT</h3>
+            <h3 class="text-center text-white">ADD COMMENT</h3>
             <form asp-action="Create" asp-controller="Comments" method="post">
                 <input type="hidden" name="PostId" value="@Model.Id" />
-                <textarea name="Body" rows="10" class="form-control"></textarea>
-                <button class="btn btn-dark btn-block btn-sm" type="submit">Submit</button>
+                <textarea name="Body" rows="10" class="form-control text-body"></textarea>
+                <button class="btn btn-warning btn-block btn-sm" type="submit">Submit</button>
             </form>
         </div>
     </div>
@@ -74,7 +75,7 @@ else
 {
     <div class="row">
         <div class="col">
-            <div class="media border p-3">
+            <div class="media border p-3 bg-light">
                 <img src="@_fileService.DecodeImage(comment.Author.ImageData, comment.Author.ContentType)" alt="@comment.Author.FullName" class="mr-3 mt-3 rounded-circle" style="width:60px;">
                 <div class="media-body">
                     <h4>@comment.Author.FullName <small><i>Posted on @comment.Created.ToString("MMM dd, yyyy")</i></small></h4>
@@ -84,3 +85,13 @@ else
         </div>
     </div>
 }
+
+@*@foreach (var comment in Model.Comments.OrderByDescending(c => c.Created))
+            {
+                @Html.Raw(comment.CommentBody)
+    <p class="text-sm-center">@comment.Bloguser.FirstName</p>
+    if(User.IsInRole("Admin") || User.IsInRole.("Moderator") || (comment.Moderated is null && userManager.GetUserId(User) == comment.AuthorId)
+                {
+
+                }
+}*@

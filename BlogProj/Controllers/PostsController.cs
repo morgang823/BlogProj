@@ -30,7 +30,7 @@ namespace BlogProj.Models
             _searchService = searchService;
         }
 
-        public async Task<IActionResult> BlogPostIndex(int? id)
+        public async Task<IActionResult> BlogPostIndex(int? id, int page = 1)
         {
             if (id == null)
             {

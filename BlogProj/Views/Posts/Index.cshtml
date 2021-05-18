@@ -1,65 +1,66 @@
 ﻿@model IEnumerable<BlogProj.Models.Post>
-
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@using BlogProj.Services
+@using X.PagedList
+@inject IBlogFileService _fileService
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="text-white">@Html.DisplayNameFor(blog => blog.Title)</h1>
 @if (User.IsInRole("Administrator"))
 {
-    <p>
-        <a class=" btn btn-primary text-white" asp-action="Create">Create New</a>
+    <p class="text-white">
+        <a class="btn btn-warning" asp-action="Create">Create New</a>
     </p>
 }
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Abstract)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Content)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Slug)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PublishState)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+<div class="container container-fluid">
+    @foreach (var post in Model)
+    {
+        <div class="row">
+            <div class="col-4">
+                <div class="item mb-5">
+                    <div class="media">
+                        <img class="img-fluid" style="width:100%" src=@_fileService.DecodeImage(post.ImageData, post.ContentType) alt="card image cap">
+                    </div><!--//media-->
+                </div>
+                <div class="col-8">
+                    <div class="media-body">
+                        <h2 class="title mb-1">@Html.DisplayFor(modelItem => post.Title)</h2>
+                        <h3 class="title mb-1">@Html.DisplayFor(modelItem => post.Blog)</h3>
+                        <div class="meta mb-1"><span class="date">Last Updated on: @Html.DisplayFor(modelItem => post.Updated)</span></div>
+                        <div class="intro">
+                            @Html.DisplayFor(modelItem => post.Abstract)
+                        </div>
+                        <a class="more-link" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read Full Post &rarr;</a>
+                    </div><!--//media-body-->
+                </div><!--//item-->
+            </div>
+            @if (User.IsInRole("Administrator"))
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Abstract)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Content)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Slug)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PublishState)
-                </td>
-                @if (User.IsInRole("Administrator"))
-                {
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-slug="@item.Slug">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                }
-                </tr>
+                <div class="btn btn-warning">
+                    <a class="text-dark" asp-action="Edit" asp-route-id="@post.Id">Edit</a> |
+                    <a class="text-dark" asp-action="Details" asp-route-slug="@post.Slug">Details</a> |
+                    <a class="text-dark" asp-action="Delete" asp-route-id="@post.Id">Delete</a>
+                </div>
             }
-        </tbody>
-    </table>
+        </div>
+        <hr />
+    }
+</div>
+@*<div class="row">
+    <div class="col h3">
+        Page @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) of @Model.PageCount
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+       new PagedListRenderOptions
+       {
+           LiElementClasses = new string[] { "page-item" },
+           PageClasses = new string[] { "page-link" }
+       })
+    </div>
+</div>*@

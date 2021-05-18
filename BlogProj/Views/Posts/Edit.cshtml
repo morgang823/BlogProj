@@ -16,6 +16,7 @@
             <input type="hidden" asp-for="Slug" />
             <input type="hidden" asp-for="Created" />
             <input type="hidden" asp-for="ImageData" />
+            <input type="hidden" asp-for="ContentType" />
             <input type="hidden" asp-for="BlogId" />
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -34,7 +35,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ImageFile" class="control-label"></label>
-                <input type="file" asp-for="ImageFile" class="form-control-file"/>
+                <input type="file" asp-for="ImageFile" class="form-control-file" />
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
 

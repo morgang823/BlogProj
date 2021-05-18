@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BlogProj.Controllers
 {
-    
+    [Authorize]
     public class CommentsController : Controller
 {
         private readonly ApplicationDbContext _context;

@@ -48,15 +48,15 @@
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home fa-fw mr-2"></i>Home <span class="sr-only">(current)</span></a>
                     </li>
 
-                    @if(User.IsInRole("Administrator"))
-                        {
-                    <li class="nav-item">
-                        <a class="nav-link" asp- asp-area="" asp-controller="Blogs" asp-action="Create"><i class="fas fa-blog fa-fw mr-2"></i>Create Blog Series</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Posts" asp-action="Create"><i class="fas fa-paper-plane-o fa-fw mr-2"></i>Create Posts</a>
-                    </li>
-                        }
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp- asp-area="" asp-controller="Blogs" asp-action="Create"><i class="fas fa-blog fa-fw mr-2"></i>Create Blog Series</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Posts" asp-action="Create"><i class="fas fa-paper-plane-o fa-fw mr-2"></i>Create Posts</a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy"><i class="fas fa-user fa-fw mr-2"></i>About</a>
                     </li>
@@ -77,8 +77,8 @@
         </nav>
         @*Where we collect search string from user*@
         <form asp-action="SearchIndex" asp-controller="Posts">
-            <input class="form-control" name="SearchString" placeholder="Enter search terms"/>
-                   <button class="btn-sm btn-dark btn-block submit">Search</button>
+            <input class="form-control" name="SearchString" placeholder="Enter search terms" />
+            <button class="btn-sm btn-dark btn-block submit">Search</button>
         </form>
     </header>
     <div class="container container-fluid">
@@ -96,6 +96,15 @@
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/particles.js"></script>
     <script src="~/js/summernote.min.js"></script>
+    [Refactor] <!-- Summer Note - Responsive image fix -->
+    <script>
+        $(document).ready(function () {
+            $("img").addClass("img-fluid");
+            $("img").parent("span").css("width", "auto");
+            $("img").parent("span").css("height", "auto");
+        });s
+    </script>
+
     <script>
         $(document).ready(function () {
             $('#Content').summernote();

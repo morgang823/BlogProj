@@ -49,6 +49,9 @@ namespace BlogProj.Areas.Identity.Pages.Account.Manage
 
             public byte[] ProfilePic { get; set; }
 
+            public string FirstName { get; set; }
+
+            public string LastName { get; set; }
 
             [Display(Name = "Display Name")]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
