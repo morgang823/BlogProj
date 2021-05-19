@@ -9,49 +9,48 @@
 <div>
     <h4 class="text-white">Blog: @Html.DisplayFor(model => model.Title)</h4>
     <hr />
-    <img id="ProfileImage" class="img-fluid" src="@_fileService.DecodeImage(Model.ImageData, Model.ContentType)" />
+    <img id="ProfileImage" class="img-fluid align-items-center align-self-center justify-content-center" src="@_fileService.DecodeImage(Model.ImageData, Model.ContentType)" />
     <dl class="row text-white font-weight-bold">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title):
+            <h3 class="text-white">@Html.DisplayNameFor(model => model.Title):</h3>
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
+            <h3 class="text-white">@Html.DisplayFor(model => model.Title)</h3>
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Abstract):
+            <h3 class="text-white">@Html.DisplayNameFor(model => model.Abstract):</h3>
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Abstract)
+            <h3 class="text-white">@Html.DisplayFor(model => model.Abstract)</h3>
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Created):
+            <h3 class="text-white">@Html.DisplayNameFor(model => model.Created):</h3>
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Created)
+            <h3 class="text-white">@Html.DisplayFor(model => model.Created)</h3>
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Updated):
+         <h3 class="text-white">@Html.DisplayNameFor(model => model.Updated):</h3>
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Updated)
+            <h3 class="text-white">@Html.DisplayFor(model => model.Updated)</h3>
         </dd>
     </dl>
 </div>
-<article>
-    <div class="container">
-        <div class="row text-white">
-            @Html.DisplayNameFor(model => model.Content):<br />
-            @Html.Raw(Model.Content)
+<main>
+    <div class="container container-fluid bg-white">
+        <div class="row text-black-50 form-control-lg">
+            <h3>@Html.Raw(Model.Content)</h3>
         </div>
     </div>
-</article>
+</main>
 
 <hr />
 
 @*Task 1: Prompt the anonymous user to login to add a comment*@
 @if (!User.Identity.IsAuthenticated)
 {
-    <a class="btn-dark btn-block btn-sm rounded" asp-area="Identity"
+    <a class="btn-warning btn-block btn-lg rounded" asp-area="Identity"
        asp-page="/Account/Login"
        asp-route-returnUrl="@Url.Action("Details", "Posts", new { Slug = Model.Slug})">Login to add a comment</a>
 }

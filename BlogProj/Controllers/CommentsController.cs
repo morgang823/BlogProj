@@ -159,6 +159,7 @@ namespace BlogProj.Controllers
         }
 
         // POST: Comments/Delete/5
+        [Authorize(Roles = "Administrator, Moderator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

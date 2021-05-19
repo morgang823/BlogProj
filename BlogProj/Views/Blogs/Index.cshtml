@@ -45,7 +45,7 @@
                             @Html.DisplayFor(modelItem => blog.Description)
                                 </h3>
                         </div>
-                        <button class="btn btn-warning btn-block"asp-action="BlogPostIndex" asp-controller="Posts" asp-route-id="@blog.Id">Read Posts in this series &rarr;</button>
+                        <a class="btn btn-warning btn-block" asp-action="BlogPostIndex" asp-controller="Posts" asp-route-id="@blog.Id">Read Posts in this series &rarr;</a>
                     </div><!--//media-body-->
                 </div><!--//item-->
             </div>

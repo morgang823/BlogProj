@@ -10,6 +10,7 @@ using BlogProj.Services;
 using BlogProj.Models;
 using Microsoft.Extensions.Configuration;
 using X.PagedList;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BlogProj.Models
 {
@@ -80,6 +81,8 @@ namespace BlogProj.Models
         }
 
         // GET: Posts/Create
+        [Authorize(Roles = "Administrator")]
+
         public IActionResult Create()
         {
             ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Description");
@@ -89,6 +92,8 @@ namespace BlogProj.Models
         // POST: Posts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Administrator")]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BlogId,Title,Abstract,Content,PublishState,ImageFile")] Post post)
@@ -133,10 +138,12 @@ namespace BlogProj.Models
             return View(await posts.ToPagedListAsync(pageNumber, pageSize));
 
         }
-   
+
 
 
         // GET: Posts/Edit/5
+        [Authorize(Roles = "Administrator")]
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -158,6 +165,8 @@ namespace BlogProj.Models
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
+
         public async Task<IActionResult> Edit(int id, [Bind("Id,BlogId,Title,Abstract,Content,Created,Slug,PublishState,ImageFile ImageData")] Post post)
         {
             if (id != post.Id)
@@ -212,6 +221,8 @@ namespace BlogProj.Models
         }
 
         // GET: Posts/Delete/5
+        [Authorize(Roles = "Administrator")]
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -233,6 +244,8 @@ namespace BlogProj.Models
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var post = await _context.Posts.FindAsync(id);

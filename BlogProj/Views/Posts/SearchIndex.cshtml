@@ -21,7 +21,7 @@
                         <h3 class="title mb-1 text-white font-weight-bolder">@post.Title</h3>
                         <div class="meta mb-1 text-white font-weight-bolder"><span class="date">@post.Created</span><span class="time">5 min read</span></div>
                         <div class="intro text-white font-weight-bolder">@post.Abstract</div>
-                        <a class="more-link btn btn-warning" asp-controller="Posts" asp-action="Details" asp-route-slug="@post.Id">Read Details &rarr;</a>
+                        <a class="more-link btn btn-warning" asp-controller="Posts" asp-action="Details" asp-route-slug="@post.Slug">Read Details &rarr;</a>
                     </div><!--//media-body-->
                 </div><!--//media-->
             </div><!--//item-->
@@ -35,7 +35,7 @@
 
 <div class="row">
     <div class="col h3">
-        Page @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) of @Model.PageCount
+        Page @(Model.PageCount < Model.PageNumber ? 1: Model.PageNumber) of @Model.PageCount
     </div>
 </div>
 
