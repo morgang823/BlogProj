@@ -1,71 +1,119 @@
 ﻿@model IEnumerable<BlogProj.Models.Comment>
+@using BlogProj.Services
+@using Microsoft.AspNetCore.Identity
+@using BlogProj.Models
+@using BlogProj.Enums
+@inject UserManager<BlogUser> userManager
+@inject IBlogFileService _fileService
 
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Body)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Created)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Moderated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModeratedBody)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModertationType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Post)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Body)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Created)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Moderated)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModeratedBody)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModertationType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Post.Abstract)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@*Task 1: Prompt the anonymous user to login to add a comment*@
+@if (!User.Identity.IsAuthenticated)
+{
+    <a class="btn-warning btn-block btn-lg rounded" asp-area="Identity"
+       asp-page="/Account/Login"
+       asp-route-returnUrl="@Url.Action("Details", "Comment")">Login to add a comment</a>
 }
-    </tbody>
-</table>
+<h1>Comments Page</h1>
+<div class="btn-sm btn-dark btn-block">Comment</div>
+@foreach (var comment in Model)
+{
+    //This can test against the Moderated date, the presence of the ModeratedBody, or ModeratedReason value > 0
+    if (comment.Moderated is null)
+    {
+        <div class="row">
+            <div class="col">
+                <div class="media border p-3 bg-light">
+                    <img src="@_fileService.DecodeImage(comment.Author.ImageData, comment.Author.ContentType)" alt="@comment.Author.FullName" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                    <div class="media-body">
+                        <h4>@comment.Author.FullName <small><i>Posted on @comment.Created.ToString("MMM dd, yyyy")</i></small></h4>
+                        <p> @Html.Raw(comment.Body)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col">
+                <div class="media border p-3 bg-light">
+                    <img src="@_fileService.DecodeImage(comment.Author.ImageData, comment.Author.ContentType)" alt="@comment.Author.FullName" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                    <div class="media-body">
+                        <p class="text-sm-center">This comment has been moderated because of @comment.ModerationType</p>
+                        <h4>@comment.Author.FullName <small><i>Posted on @comment.Created.ToString("MMM dd, yyyy")</i></small></h4>
+                        <p> @Html.Raw(comment.ModeratedBody)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    //The three users who can edit a comment, the owner, the mod, and the person who made the comment (if it hasn't been moderated)
+    if (User.IsInRole("Administrator") || User.IsInRole("Moderator") || (comment.Moderated is null && userManager.GetUserId(User) == comment.AuthorId))
+    {
+        <!-- Button trigger modal -->
+        //Ties the button to the modal through the PK of the comment
+        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit-@comment.Id">
+            Edit Comment
+        </button>
+
+        <!-- Modal -->
+        //Same Id structure as the button
+        <div class="modal fade" id="edit-@comment.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Comment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-controller="PostComments" asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            //Properties that cannot be changed on the edit
+                            <input type="hidden" asp-for="@comment.Id" />
+                            <input type="hidden" asp-for="@comment.PostId" />
+                            <input type="hidden" asp-for="@comment.AuthorId" />
+                            <input type="hidden" asp-for="@comment.Created" />
+                            //This allows for Admin/Mod to update the ModeratedBody and see the original comment
+                            @if (User.IsInRole("Administrator") || User.IsInRole("Moderator"))
+                            {
+                                @Html.Raw(comment.Body)
+                                <div class="form-group">
+                                    <label asp-for="@comment.ModerationType" class="control-label"></label>
+                                    <select asp-for="@comment.ModerationType" asp-items="@Html.GetEnumSelectList<ModerationType>()" class="form-control"></select>
+                                    <span asp-validation-for="@comment.ModerationType" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="@comment.ModeratedBody" class="control-label"></label>
+                                    <input asp-for="@comment.ModeratedBody" class="form-control" />
+                                    <span asp-validation-for="@comment.ModeratedBody" class="text-danger"></span>
+                                </div>
+                            }
+                            //This lets the original author change what they wrote
+                            else
+                            {
+                                <div class="form-group">
+                                    <label asp-for="@comment.Body" class="control-label"></label>
+                                    <input asp-for="@comment.Body" class="form-control" />
+                                    <span asp-validation-for="@comment.Body" class="text-danger"></span>
+                                </div>
+                            }
+                            <div class="form-group">
+                                <input asp-action="Edit" asp-controller="Comments" type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

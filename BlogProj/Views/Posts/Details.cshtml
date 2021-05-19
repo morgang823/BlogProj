@@ -1,6 +1,7 @@
 ﻿@model BlogProj.Models.Post
 @using BlogProj.Services
 @using Microsoft.AspNetCore.Identity
+@using BlogProj.Enums
 @inject UserManager<BlogUser> userManager
 @inject IBlogFileService _fileService
 @{
@@ -30,7 +31,7 @@
             <h3 class="text-white">@Html.DisplayFor(model => model.Created)</h3>
         </dd>
         <dt class="col-sm-2">
-         <h3 class="text-white">@Html.DisplayNameFor(model => model.Updated):</h3>
+            <h3 class="text-white">@Html.DisplayNameFor(model => model.Updated):</h3>
         </dt>
         <dd class="col-sm-10">
             <h3 class="text-white">@Html.DisplayFor(model => model.Updated)</h3>
@@ -72,25 +73,101 @@ else
 <div class="btn-sm btn-dark btn-block">@Model.Comments.Count Comment(s)</div>
 @foreach (var comment in Model.Comments.OrderByDescending(c => c.Created))
 {
-    <div class="row">
-        <div class="col">
-            <div class="media border p-3 bg-light">
-                <img src="@_fileService.DecodeImage(comment.Author.ImageData, comment.Author.ContentType)" alt="@comment.Author.FullName" class="mr-3 mt-3 rounded-circle" style="width:60px;">
-                <div class="media-body">
-                    <h4>@comment.Author.FullName <small><i>Posted on @comment.Created.ToString("MMM dd, yyyy")</i></small></h4>
-                    <p>@comment.Body</p>
+    //This can test against the Moderated date, the presence of the ModeratedBody, or ModeratedReason value > 0
+    if (comment.Moderated is null)
+    {
+        <div class="row">
+            <div class="col">
+                <div class="media border p-3 bg-light">
+                    <img src="@_fileService.DecodeImage(comment.Author.ImageData, comment.Author.ContentType)" alt="@comment.Author.FullName" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                    <div class="media-body">
+                        <h4>@comment.Author.FullName <small><i>Posted on @comment.Created.ToString("MMM dd, yyyy")</i></small></h4>
+                        <p> @Html.Raw(comment.Body)</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col">
+                <div class="media border p-3 bg-light">
+                    <img src="/img/defaultUserImage.png" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                    @Html.Raw(comment.ModeratedBody)
+                    <p class="text-sm-center">@comment.ModeratorId</p>
+                    <p class="text-sm-center">This comment has been moderated because @comment.ModerationType</p>
+                </div>
+            </div>
+        </div>
+    }
+
+    //The three users who can edit a comment, the owner, the mod, and the person who made the comment (if it hasn't been moderated)
+    if (User.IsInRole("Administrator") || User.IsInRole("Moderator") || (comment.Moderated is null && userManager.GetUserId(User) == comment.AuthorId))
+    {
+        <!-- Button trigger modal -->
+        //Ties the button to the modal through the PK of the comment
+        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit-@comment.Id">
+            Edit Comment
+        </button>
+
+        <!-- Modal -->
+        //Same Id structure as the button
+        <div class="modal fade" id="edit-@comment.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Comment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-controller="Comments" asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            @*//Properties that cannot be changed on the edit*@
+                            <input type="hidden" asp-for="@comment.Id" />
+                            <input type="hidden" name="id" value="@comment.Id" />
+                            <input type="hidden" asp-for="@comment.PostId" />
+                            <input type="hidden" asp-for="@comment.AuthorId" />
+                            <input type="hidden" asp-for="@comment.Created" />
+                            @*//This allows for Admin/Mod to update the ModeratedBody and see the original comment*@
+                            @if (User.IsInRole("Administrator") || User.IsInRole("Moderator"))
+                            {
+                                @Html.Raw(comment.Body)
+                                <input asp-for="@comment.Body" type="hidden" class="form-control" />
+
+                                <div class="form-group">
+                                    <label asp-for="@comment.ModerationType" class="control-label"></label>
+                                    <select asp-for="@comment.ModerationType" asp-items="@Html.GetEnumSelectList<ModerationType>()" class="form-control"></select>
+                                    <span asp-validation-for="@comment.ModerationType" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="@comment.ModeratedBody" class="control-label"></label>
+                                    <input asp-for="@comment.ModeratedBody" class="form-control" />
+                                    <span asp-validation-for="@comment.ModeratedBody" class="text-danger"></span>
+                                </div>
+                            }
+                            //This lets the original author change what they wrote
+                            else
+                            {
+                                <div class="form-group">
+                                    <label asp-for="@comment.Body" class="control-label"></label>
+                                    <input asp-for="@comment.Body" class="form-control" />
+                                    <span asp-validation-for="@comment.Body" class="text-danger"></span>
+                                </div>
+                            }
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 }
-
-@*@foreach (var comment in Model.Comments.OrderByDescending(c => c.Created))
-            {
-                @Html.Raw(comment.CommentBody)
-    <p class="text-sm-center">@comment.Bloguser.FirstName</p>
-    if(User.IsInRole("Admin") || User.IsInRole.("Moderator") || (comment.Moderated is null && userManager.GetUserId(User) == comment.AuthorId)
-                {
-
-                }
-}*@

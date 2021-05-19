@@ -116,9 +116,26 @@ namespace BlogProj.Controllers
             {
                 try
                 {
+                    //For adding an edit notification to the text
+                    var user = await _userManager.GetUserAsync(User);
+                    string editNotice = $"Edited by: {user.FullName} <br />On: {DateTime.Now:MMM/dd/yyyy}<br />";
+                    //End of edit notification
+
+                    comment.Moderated = DateTime.Now;
+                    if (comment.ModeratedBody is not null)
+                    {
+                        comment.ModeratedBody = editNotice + comment.ModeratedBody;
+                        comment.Moderated = DateTime.Now;
+                    }
+                    else
+                    {
+                        comment.Body = editNotice + comment.Body;
+                    }
                     _context.Update(comment);
                     await _context.SaveChangesAsync();
+
                 }
+
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!CommentExists(comment.Id))
@@ -130,11 +147,12 @@ namespace BlogProj.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                var post = _context.Posts.Find(comment.PostId);
+
+                return RedirectToAction("Details", "Posts", new { slug = post.Slug }); 
             }
             ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id", comment.AuthorId);
-            ViewData["ModeratorId"] = new SelectList(_context.Users, "Id", "Id", comment.ModeratorId);
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Abstract", comment.PostId);
+            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id", comment.PostId);
             return View(comment);
         }
 
