@@ -6,38 +6,36 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Blog</h4>
+<h1 class="text-white font-weight-bolder">Create A Blog Series</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger" enctype="multipart/form-data"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
+            <div asp-validation-summary="ModelOnly" class="text-black font-weight-bolder" enctype="multipart/form-data"></div>
+            <div class="form-group text-black font-weight-bold">
+                <label asp-for="Title" class="control-label text-black font-weight-bold"></label>
                 <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <span asp-validation-for="Title" class="text-black font-weight-bold"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+            <div class="form-group text-black font-weight-bold">
+                <label asp-for="Description" class="control-label text-black font-weight-bold"></label>
                 <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <span asp-validation-for="Description" class="text-black font-weight-bold"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ImageFile" class="control-label">Custom</label>
+            <div class="form-group text-black font-weight-bold">
+                <label asp-for="ImageFile" class="control-label text-black font-weight-bold">Custom Image</label>
                 <input id="newProfileImage" type="file" asp-for="ImageFile" class="form-control" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                <span asp-validation-for="ImageFile" class="text-black font-weight-bold"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-warning" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-warning" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

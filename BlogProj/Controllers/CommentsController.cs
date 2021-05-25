@@ -74,7 +74,6 @@ namespace BlogProj.Controllers
                 return RedirectToAction("Details", "Posts", new { Slug = slug });
             }
             ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id", comment.AuthorId);
-            ViewData["ModeratorId"] = new SelectList(_context.Users, "Id", "Id", comment.ModeratorId);
             ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Abstract", comment.PostId);
             return View(comment);
         }
@@ -94,7 +93,6 @@ namespace BlogProj.Controllers
                 return NotFound();
             }
             ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id", comment.AuthorId);
-            ViewData["ModeratorId"] = new SelectList(_context.Users, "Id", "Id", comment.ModeratorId);
             ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Abstract", comment.PostId);
             return View(comment);
         }
@@ -105,7 +103,7 @@ namespace BlogProj.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,AuthorID,Body,Created,Moderated,ModeratedBody,ModertationType")] Comment comment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,AuthorID,ModeratorID,Body,Created,Moderated,ModeratedBody,ModerationType")] Comment comment)
         {
             if (id != comment.Id)
             {
@@ -153,6 +151,7 @@ namespace BlogProj.Controllers
             }
             ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id", comment.AuthorId);
             ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id", comment.PostId);
+            ViewData["ModeratorId"] = new SelectList(_context.Posts, "Id", "Id", comment.ModeratorId);
             return View(comment);
         }
 

@@ -18,11 +18,13 @@
 
             {
                 <div class="col-4">
-                    <div class="card" style="width: 18rem; height:max-content">
+                    <div class="card h-100 " style="width: 18rem;">
                         <img class="card-img-top" src=@_fileService.DecodeImage(blog.ImageData, blog.ContentType) alt="card image cap">
                         <div class="card-body">
-                            <h5 class="card-title">@blog.Title</h5>
-                            <p class="card-text">@blog.Description</p>
+                            <h4 class="card-title">@blog.Title</h4>
+                            <hr />
+                            <h5 class="card-text text-black">@blog.Description</h5>
+                            <hr />
                             <a class="more-link btn btn-warning" asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">Read more &rarr;</a>
                         </div>
                     </div>

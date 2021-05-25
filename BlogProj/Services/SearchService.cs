@@ -23,17 +23,20 @@ namespace BlogProj.Services
 
             var result = _context.Posts.Where(p => p.PublishState == PublishState.ProductionReady);
 
+            searchString = searchString.ToLower();
+
             if (!string.IsNullOrEmpty(searchString))
             {
 
 
-            result = result.Where(p => p.Title.Contains(searchString) ||
-                p.Title.Contains(searchString) ||
-                p.Abstract.Contains(searchString) ||
-                p.Comments.Any(c => c.Body.Contains(searchString) ||
-                c.ModeratedBody.Contains(searchString) ||
-                c.Author.FirstName.Contains(searchString) ||
-                c.Author.LastName.Contains(searchString)));
+            result = result.Where(p => p.Title.ToLower().Contains(searchString) ||
+                p.Content.ToLower().Contains(searchString) ||
+                p.Abstract.ToLower().Contains(searchString) ||
+                p.Blog.Title.ToLower().Contains(searchString) ||
+                p.Comments.Any(c => c.Body.ToLower().Contains(searchString) ||
+                c.ModeratedBody.ToLower().Contains(searchString) ||
+                c.Author.FirstName.ToLower().Contains(searchString) ||
+                c.Author.LastName.ToLower().Contains(searchString)));
             }
 
             return result.OrderByDescending(p => p.Created);

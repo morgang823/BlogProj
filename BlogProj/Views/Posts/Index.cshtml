@@ -12,54 +12,70 @@
 @if (User.IsInRole("Administrator"))
 {
     <p class="text-white">
-        <a class="btn btn-warning" asp-action="Create">Create New</a>
+        <a class="btn btn-warning text-white font-weight-bold" asp-action="Create">Create New</a>
     </p>
 }
 <div class="container container-fluid">
     @foreach (var post in Model)
     {
         <div class="row">
-            <div class="col-4">
+            <div class="col-lg-4">
                 <div class="item mb-5">
                     <div class="media">
                         <img class="img-fluid" style="width:100%" src=@_fileService.DecodeImage(post.ImageData, post.ContentType) alt="card image cap">
                     </div><!--//media-->
                 </div>
-                <div class="col-8">
-                    <div class="media-body">
-                        <h2 class="title mb-1">@Html.DisplayFor(modelItem => post.Title)</h2>
-                        <div class="meta mb-1"><span class="date">Last Updated on: @Html.DisplayFor(modelItem => post.Updated)</span></div>
-                        <div class="intro">
-                            @Html.DisplayFor(modelItem => post.Abstract)
-                        </div>
-                        <a class="more-link" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read Full Post &rarr;</a>
-                    </div><!--//media-body-->
-                </div><!--//item-->
             </div>
-            @if (User.IsInRole("Administrator"))
-            {
-                <div class="btn btn-warning">
-                    <a class="text-dark" asp-action="Edit" asp-route-id="@post.Id">Edit</a> |
-                    <a class="text-dark" asp-action="Details" asp-route-slug="@post.Slug">Details</a> |
-                    <a class="text-dark" asp-action="Delete" asp-route-id="@post.Id">Delete</a>
-                </div>
-            }
+            <div class="col-8">
+                <div class="media-body">
+                    <h2 class="title mb-1 text-white">@Html.DisplayFor(modelItem => post.Title)</h2>
+                    <div class="meta mb-1 text-white font-weight-bolder"><span class="date">Last Updated on: @Html.DisplayFor(modelItem => post.Updated)</span></div>
+                    <div class="intro">
+                        <h3 class="text-white">@Html.DisplayFor(modelItem => post.Abstract)</h3>
+                    </div>
+                    <a class="btn btn-warning btn-block" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug"><h6 class="text-white font-weight-bold">Read Full Post</h6> &rarr;</a>
+                </div><!--//media-body-->
+            </div><!--//item-->
         </div>
+        @if (User.IsInRole("Administrator"))
+        {
+            <div class="btn btn-warning">
+                <a class="text-white font-weight-bold" asp-action="Edit" asp-route-id="@post.Id">Edit</a> |
+                <a class="text-white font-weight-bold" asp-action="Details" asp-route-slug="@post.Slug">Details</a> |
+                <a class="text-white font-weight-bold" asp-action="Delete" asp-route-id="@post.Id">Delete</a>
+            </div>
+        }
         <hr />
     }
 </div>
-@*<div class="row">
-    <div class="col h3">
-        Page @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) of @Model.PageCount
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
-       new PagedListRenderOptions
-       {
-           LiElementClasses = new string[] { "page-item" },
-           PageClasses = new string[] { "page-link" }
-       })
-    </div>
-</div>*@
+
+@*Carousel will work on later*@
+@*<section class="ftco-section">
+        <div class="container">
+            @foreach (var post in Model)
+            {
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h2 class="heading-section mb-5 pb-md-4">Carousel #02</h2>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="featured-carousel owl-carousel">
+                            <div class="item">
+                                <div class="work">
+                                    <div class="img d-flex align-items-center justify-content-center rounded" style="background-image:@_fileService.DecodeImage(post.ImageData, post.ContentType)">
+                                        <a href="#" class="icon d-flex align-items-center justify-content-center">
+                                            <span class="ion-ios-search"></span>
+                                        </a>
+                                    </div>
+                                    <div class="text pt-3 w-100 text-center">
+                                        <h3><a href="#">@Html.DisplayFor(modelItem => post.Title)</a></h3>
+                                        <span>Web Desig</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>*@

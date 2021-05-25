@@ -4,9 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Post</h4>
+<h1 class="text-white">@Html.DisplayFor(Post => Post.Title)</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,41 +16,41 @@
             <input type="hidden" asp-for="ImageData" />
             <input type="hidden" asp-for="ContentType" />
             <input type="hidden" asp-for="BlogId" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+            <div class="form-group text-black font-weight-bold">
+                <label asp-for="Title" class="control-label text-white font-weight-bold"></label>
+                <input asp-for="Title" class="form-control text-black font-weight-bold" />
+                <span asp-validation-for="Title" class="text-black font-weight-bold"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Abstract" class="control-label"></label>
-                <input asp-for="Abstract" class="form-control" />
-                <span asp-validation-for="Abstract" class="text-danger"></span>
+                <label asp-for="Abstract" class="control-label text-white font-weight-bold"></label>
+                <input asp-for="Abstract" class="form-control text-black font-weight-bold" />
+                <span asp-validation-for="Abstract" class="text-black font-weight-bold"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Content" class="control-label"></label>
-                <textarea asp-for="Content" class="form-control"></textarea>
-                <span asp-validation-for="Content" class="text-danger"></span>
+                <label asp-for="Content" class="control-label text-white font-weight-bold"></label>
+                <textarea asp-for="Content" class="form-control-lg bg-white container-xl" rows="12"></textarea>
+                <span asp-validation-for="Content" class="text-black font-weight-bold"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <input type="file" asp-for="ImageFile" class="form-control-file" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                <label asp-for="ImageFile" class="control-label text-white font-weight-bold"></label>
+                <input type="file" asp-for="ImageFile" class="form-control-file text-black font-weight-bold" />
+                <span asp-validation-for="ImageFile" class="text-black font-weight-bold"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="PublishState" class="control-label"></label>
-                <select asp-for="PublishState" asp-items="@Html.GetEnumSelectList<PublishState>()" class="form-control"></select>
-                <span asp-validation-for="PublishState" class="text-danger"></span>
+                <label asp-for="PublishState" class="control-label text-white font-weight-bold"></label>
+                <select asp-for="PublishState" asp-items="@Html.GetEnumSelectList<PublishState>()" class="form-control text-black font-weight-bold"></select>
+                <span asp-validation-for="PublishState" class="text-black font-weight-bold"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-warning text-white" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-warning text-white font-weight-bold" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

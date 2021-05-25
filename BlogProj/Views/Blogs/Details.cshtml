@@ -41,8 +41,7 @@
 <div class="btn btn-warning">
     @if (User.IsInRole("Administrator"))
     {
-        <a class="text-black" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <a class="text-white font-weight-bold" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
         } 
-
-<a class="text-black" asp-action="Index">Back to List</a>
+<a class="text-white font-weight-bold" asp-action="Index">Back to List</a>
 </div>

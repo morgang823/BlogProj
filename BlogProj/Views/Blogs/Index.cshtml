@@ -17,11 +17,10 @@
 
 <div class="row"> 
     <div class="col">
-        <h1 class="text-white">Blogs Index</h1>
         @if (User.IsInRole("Administrator"))
         {
             <p class="text-white">
-                <a class="btn btn-warning" asp-action="Create">Create New</a>
+                <a class="btn btn-warning text-white font-weight-bold" asp-action="Create">Create New</a>
             </p>
         }
     </div>
@@ -29,32 +28,33 @@
 <div class="container container-fluid">
     @foreach (var blog in Model)
     {
-        <div class="row card h-100">
+        <div class="row" id="rowBlog">
             <div class="col-lg-4">
                 <div class="item mb-5">
                     <div class="media">
                         <img class="img-fluid figure-img" style="width:100%" src=@_fileService.DecodeImage(blog.ImageData, blog.ContentType) alt="card image cap">
                     </div><!--//media-->
                 </div>
+            </div>
                 <div class="col-lg-8">
                     <div class="media-body">
                         <h1 class="title mb-1 text-white">@Html.DisplayFor(modelItem => blog.Title)</h1>
                         <div class="meta mb-1 text-white"><span class="date">Last Updated on: @Html.DisplayFor(modelItem => blog.Updated)</span></div>
                         <div class="intro">
-                            <h3>
+                            <h3 class="text-white">
                             @Html.DisplayFor(modelItem => blog.Description)
                                 </h3>
                         </div>
-                        <a class="btn btn-warning btn-block" asp-action="BlogPostIndex" asp-controller="Posts" asp-route-id="@blog.Id">Read Posts in this series &rarr;</a>
+                        <a class="btn btn-warning btn-block" asp-action="BlogPostIndex" asp-controller="Posts" asp-route-id="@blog.Id"><h6 class="text-white font-weight-bold">Read Posts in this series</h6> &rarr;</a>
                     </div><!--//media-body-->
                 </div><!--//item-->
-            </div>
+            
             @if (User.IsInRole("Administrator"))
             {
                 <div class="btn btn-warning">
-                    <a class="text-dark" asp-action="Edit" asp-route-id="@blog.Id">Edit</a> |
-                    <a class="text-dark" asp-action="Details" asp-route-id="@blog.Id">Details</a> |
-                    <a class="text-dark" asp-action="Delete" asp-route-id="@blog.Id">Delete</a>
+                    <a class="text-white font-weight-bold" asp-action="Edit" asp-route-id="@blog.Id">Edit</a> |
+                    <a class="text-white font-weight-bold" asp-action="Details" asp-route-id="@blog.Id">Details</a> |
+                    <a class="text-white font-weight-bold" asp-action="Delete" asp-route-id="@blog.Id">Delete</a>
                 </div>
             }
         </div>
