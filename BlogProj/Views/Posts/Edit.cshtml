@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
+<div class="container">
 <h1 class="text-white">@Html.DisplayFor(Post => Post.Title)</h1>
 <hr />
 <div class="row">
@@ -52,7 +52,7 @@
 <div>
     <a class="btn btn-warning text-white font-weight-bold" asp-action="Index">Back to List</a>
 </div>
-
+</div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

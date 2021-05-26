@@ -4,10 +4,10 @@
 @{
     ViewData["Title"] = "Details";
 }
-
-<h1 class="text-white">Details</h1>
-
-<div>
+<div class="container">
+    <h1 class="text-white">Details</h1>
+    <div class="row">
+    <div class="col-lg-12 col-md-auto col-sm-auto">
     <h4 class="text-white">Blog: @Html.DisplayFor(model => model.Title)</h4>
     <hr />
     <img id="ProfileImage" class="img-fluid" src="@_imageService.DecodeImage(Model.ImageData, Model.ContentType)" />
@@ -37,11 +37,14 @@
             @Html.DisplayFor(model => model.Updated)
         </dd>
     </dl>
-</div>
-<div class="btn btn-warning">
+
+    <div class="btn btn-warning">
     @if (User.IsInRole("Administrator"))
     {
         <a class="text-white font-weight-bold" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
         } 
-<a class="text-white font-weight-bold" asp-action="Index">Back to List</a>
+    <a class="text-white font-weight-bold" asp-action="Index">Back to List</a>
+    </div>
+</div>
+  </div>
 </div>

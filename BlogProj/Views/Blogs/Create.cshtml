@@ -5,11 +5,11 @@
 @{
     ViewData["Title"] = "Create";
 }
-
+<div class="container">
 <h1 class="text-white font-weight-bolder">Create A Blog Series</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-lg-12 col-md-auto col-sm-auto">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-black font-weight-bolder" enctype="multipart/form-data"></div>
             <div class="form-group text-black font-weight-bold">
@@ -36,6 +36,7 @@
 
 <div>
     <a class="btn btn-warning" asp-action="Index">Back to List</a>
+</div>
 </div>
 
 @section Scripts {
