@@ -55,7 +55,12 @@
                     <li class="nav-item active">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home fa-fw mr-2"></i>Home <span class="sr-only">(current)</span></a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" asp- asp-area="" asp-controller="Blogs" asp-action="Index"><i class="fas fa-blog fa-fw mr-2"></i>Blogs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Posts" asp-action="Index"><i class="fas fa-paper-plane-o fa-fw mr-2"></i>Posts</a>
+                    </li>
                     @if (User.IsInRole("Administrator"))
                     {
                         <li class="nav-item">
@@ -65,18 +70,6 @@
                             <a class="nav-link" asp-area="" asp-controller="Posts" asp-action="Create"><i class="fas fa-paper-plane-o fa-fw mr-2"></i>Create Posts</a>
                         </li>
                     }
-                    <li class="nav-item">
-                        <a class="nav-link" asp-fragment="about" asp-protocol="https" asp-route="//www.giannimorgan.com/" target="_blank"><i class="fas fa-user fa-fw mr-2"></i>About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp- asp-area="" asp-controller="Blogs" asp-action="Index"><i class="fas fa-blog fa-fw mr-2"></i>Blogs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Posts" asp-action="Index"><i class="fas fa-paper-plane-o fa-fw mr-2"></i>Posts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-fragment="contact" asp-protocol="https" asp-route="//www.giannimorgan.com/" class="nav-link" target="_blank"><i class="fas fa-phone fa-fw mr-2"></i>Contact</a>
-                    </li>
                 </ul>
                 <div class="my-2 my-md-3">
                     <a class="btn btn-warning" href="//giannimorgan.com" target="_blank">Get in Touch</a>
