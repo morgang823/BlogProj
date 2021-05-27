@@ -16,7 +16,7 @@
 }
 
 <div class="container container-fluid">
-<div class="row"> 
+    <div class="row"> 
     <div class="col">
         @if (User.IsInRole("Administrator"))
         {
@@ -25,7 +25,7 @@
             </p>
         }
     </div>
-</div>
+    </div>
     @foreach (var blog in Model)
     {
         <div class="row" id="rowBlog">

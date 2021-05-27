@@ -2,6 +2,7 @@
 @using X.PagedList.Mvc.Core
 @using X.PagedList.Web.Common
 @using BlogProj.Services
+@using BlogProj.Models
 @inject IBlogFileService _fileService
 @model IPagedList<Blog>
 
@@ -34,7 +35,47 @@
     </div>
     <hr />
 </section>
-
+@*<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+            </div>
+            <div class="col-md-12">
+                <div class="featured-carousel owl-carousel">
+                    @foreach (var post in Model)
+                    {
+                        <div class="item">
+                            <div class="work">
+                                <div class="img d-flex align-items-center justify-content-center rounded">
+                                    <img class="img-fluid" style="width:100%" src=@_fileService.DecodeImage(post.ImageData, post.ContentType) alt="card image cap">
+                                </div>
+                                <div class="text pt-3 w-100 text-center">
+                                    <h3 class="font-weight-bold text-white">@Html.DisplayFor(modelItem => post.Title)</h3>
+                                    <h3 class="font-weight-bold text-white"><em>Posted on @Html.DisplayFor(modelItem => post.Created)</em></h3>
+                                    <hr />
+                                </div>
+                                <div class="text pt-3 w-100 text-center">
+                                    <h3 class="text-white">@Html.DisplayFor(modelItem => post.Abstract)</h3>
+                                </div>
+                                <a asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug" class="btn btn-warning d-flex align-items-center justify-content-center">
+                                    <h6 class="text-white font-weight-bold">Read Full Post</h6> &rarr;
+                                </a>
+                            </div>
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                <div class="btn btn-warning d-flex align-items-center justify-content-center">
+                                    <a class="text-white font-weight-bold" asp-action="Edit" asp-route-id="@post.Id">Edit</a> |
+                                    <a class="text-white font-weight-bold" asp-action="Details" asp-route-slug="@post.Slug">Details</a> |
+                                    <a class="text-white font-weight-bold" asp-action="Delete" asp-route-id="@post.Id">Delete</a>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>*@
 <div class="row">
     <div class="col h3">
         Page @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) of @Model.PageCount
