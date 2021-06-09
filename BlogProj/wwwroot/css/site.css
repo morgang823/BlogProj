@@ -79,24 +79,4 @@ html {
         height: 60px; /* Set the fixed height of the footer here */
         line-height: 60px; /* Vertically center the text there */
     }
-    #hero-particles-effect {
-        z-index: 1;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: cover;
-    }
-
-        #hero-particles-effect .hero-img {
-            position: relative;
-            z-index: 1;
-        }
-
-    #heroparticles {
-        width: 100%;
-        height: 100%;
-        background-color: transparent;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: 50% 50%;
-    }
 }

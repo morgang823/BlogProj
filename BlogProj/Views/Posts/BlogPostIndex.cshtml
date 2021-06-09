@@ -5,41 +5,64 @@
 @{
     ViewData["Title"] = "Landing Page";
 }
+<section class="cta-section theme-bg-light py-5">
+    <div class="container text-center">
+        <h2 class="heading">Small Bytes and Serial</h2>
+        <div class="intro">Welcome to my blog. Subscribe and get my latest blog post in your inbox.</div>
+    </div><!--//container-->
+</section>
 
-<!-- Main Content-->
-<div class="row">
-    <div class="col-lg-8 col-md-10 mx-auto">
+<h1 class="text-white">Posts</h1>
+<section class="blog-list px-3 py-5 p-md-5">
+    <div class="container-lg">
+        @if (User.IsInRole("Administrator"))
+        {
+            <p class="text-white">
+                <a class="btn btn-warning text-white font-weight-bold" asp-action="Create">Create New Post</a>
+            </p>
+        }
         @foreach (var post in Model)
         {
-            <div class="post-preview">
-                <div class="row">
-                    <div class="col">
-                        <div class="row">
-                            <div class="col">
-                                <img class="img-fluid" src="@_fileService.DecodeImage(post.ImageData, post.ContentType)" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <a class="btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="Details" asp-route-slug="@post.Slug">Read Full Post</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <a btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="Details" asp-route-slug="@post.Slug">
-                            <h2 class="post-title">@post.Title</h2>
-                            <h3 class="post-subtitle">@post.Abstract</h3>
-                        </a>
-                        <p class="post-meta">
-                            Posted by Gianni Morgan on @post.Created.ToString("MMM dd, yyyy")
-                        </p>
-                    </div>
+            <div class="item mb-5">
+                <div class="media">
+                    <img class="mr-3 img-fluid blog-post d-none d-md-flex" src="@_fileService.DecodeImage(post.ImageData, post.ContentType)" alt="image">
+                    <div class="media-body">
+                        <h1 class="title mb-1">@Html.DisplayFor(modelItem => post.Title)</h1>
+                        <div class="meta mb-1"><span class="date">Published @Html.DisplayFor(modelItem => post.Created)</span><span class="time"></span><span class="comment"><a href="#">@post.Comments.Count Comment(s)</a></span></div>
+                        <div class="intro">@Html.DisplayFor(modelItem => post.Abstract)</div>
+                        <a class="btn-block btn-warning" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read Full Post &rarr;</a>
+                    </div><!--//media-body-->
+                </div><!--//media-->
+            </div><!--//item-->
+            @if (User.IsInRole("Administrator"))
+            {
+                <div class="btn btn-warning d-flex align-items-center justify-content-center">
+                    <a class="text-white font-weight-bold" asp-action="Edit" asp-route-id="@post.Id">Edit</a> |
+                    <a class="text-white font-weight-bold" asp-action="Details" asp-route-slug="@post.Slug">Details</a> |
+                    <a class="text-white font-weight-bold" asp-action="Delete" asp-route-id="@post.Id">Delete</a>
+                </div>
+            }
+        }
+        @*<nav class="blog-nav nav nav-justified my-5">
+                <a class="nav-link-prev nav-item nav-link rounded-left" href="#">Previous<i class="arrow-prev fas fa-long-arrow-alt-left"></i></a>
+                <a class="nav-link-next nav-item nav-link rounded-right" href="#">Next<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
+            </nav>*@
+    </div>
+    @*<div class="container">
+            <div class="row">
+                <div class="col h3">
+                    Page @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) of @Model.PageCount
                 </div>
             </div>
-            <hr />
-        }
-
-        <!-- Pager-->
-        <div class="clearfix"><a class="btn btn-primary float-right" href="#!">Older Posts →</a></div>
-    </div>
-</div>
+            <div class="row">
+                <div class="col">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+                   new PagedListRenderOptions
+                   {
+                       LiElementClasses = new string[] { "page-item" },
+                       PageClasses = new string[] { "page-link" }
+                   })
+                </div>
+            </div>
+        </div>*@
+</section>

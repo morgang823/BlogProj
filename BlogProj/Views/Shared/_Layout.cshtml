@@ -14,19 +14,16 @@
     <title>Gianni Morgan's blog - @ViewData["Title"]</title>
     <!-- FontAwesome JS-->
 
-    <script defer src="~/js/all.min.js"></script>
-
+    <script defer src="~/js/all.js"></script>
     <!-- Theme CSS -->
     <link href="~/css/theme-3.css" rel="stylesheet" />
-    <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/css/summernote.min.css" rel="stylesheet" />
     <link href="~/css/bootstrap.min.css" rel="stylesheet" />
-    @*<link href="~/favicon.ico" rel="shortcut icon" />*@
     <link runat="server" rel="shortcut icon" href="~/pencilfavicon.png" type="image/x-icon" />
     <link runat="server" rel="icon" href="~/pencilfavicon.png" type="image/ico" />
-    <link href="~/css/owl.carousel.min.css" rel="stylesheet" />
-    <link href="~/css/owl.theme.default.min.css" rel="stylesheet" />
     <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+
 </head>
 <body>
     <header class="header text-center">
@@ -82,9 +79,11 @@
             <button class="btn-sm btn-dark btn-block submit">Search</button>
         </form>
     </header>
-        <main class="pb-3">
+    <div class="main-wrapper">
+        <main>
             @RenderBody()
         </main>
+    </div>
     <footer class="footer text-center py-2 theme-bg-dark">
         <div>
             <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->

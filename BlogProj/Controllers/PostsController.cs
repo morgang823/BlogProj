@@ -11,6 +11,7 @@ using BlogProj.Models;
 using Microsoft.Extensions.Configuration;
 using X.PagedList;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace BlogProj.Models
 {
@@ -167,7 +168,7 @@ namespace BlogProj.Models
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
 
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BlogId,Title,Abstract,Content,Created,Slug,PublishState,ImageFile ImageData")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,BlogId,Title,Abstract,Content,Created,Slug,PublishState,ImageFile, ImageData,ContentType")] Post post, IFormFile ImageFile)
         {
             if (id != post.Id)
             {

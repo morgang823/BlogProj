@@ -103,7 +103,7 @@ namespace BlogProj.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,AuthorID,ModeratorID,Body,Created,Moderated,ModeratedBody,ModerationType")] Comment comment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,AuthorID,ImageData,ContentType,ModeratorID,Body,Created,Moderated,ModeratedBody,ModerationType")] Comment comment)
         {
             if (id != comment.Id)
             {

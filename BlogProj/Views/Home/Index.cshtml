@@ -11,84 +11,60 @@
 }
 
 
+
+<section class="cta-section theme-bg-light py-5">
+    <div class="container text-center">
+        <h2 class="heading">Small Bytes and Serial</h2>
+        <div class="intro">Welcome to my blog. Subscribe and get my latest blog post in your inbox.</div>
+    </div><!--//container-->
+</section>
 <section class="blog-list px-3 py-5 p-md-5">
-    <div class="container">
-        <div class="row">
-
-            @foreach (var blog in Model)
-
+    <div class="container-lg">
+        @if (User.IsInRole("Administrator"))
+        {
+            <p class="text-white">
+                <a class="btn btn-warning text-white font-weight-bold" asp-controller="Blogs" asp-action="Create">Create New</a>
+            </p>
+        }
+        @foreach (var blog in Model)
+        {
+            <div class="item mb-5">
+                <div class="media row">
+                    <img class="mr-3 img-fluid blog-nav d-none d-md-flex" style="width:100%" src=@_fileService.DecodeImage(blog.ImageData, blog.ContentType) alt="image">
+                    <div class="media-body row align-content-center justify-content-center">
+                        <a class="btn btn-lg btn-warning" asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">Read more &rarr;</a>
+                    </div><!--//media-body-->
+                </div><!--//media-->
+                <h3 class="title mb-1">@Html.DisplayFor(modelItem => blog.Title)</h3>
+                <div class="meta mb-1"><span class="date">@Html.DisplayFor(modelItem => blog.Description)</span></div>
+                <div class="intro">Last Updated on @Html.DisplayFor(modelItem => blog.Updated)</div>
+            </div><!--//item-->
+            @if (User.IsInRole("Administrator"))
             {
-                <div class="col-4">
-                    <div class="card h-100 " style="width: 18rem;">
-                        <img class="card-img-top" src=@_fileService.DecodeImage(blog.ImageData, blog.ContentType) alt="card image cap">
-                        <div class="card-body">
-                            <h4 class="card-title">@blog.Title</h4>
-                            <hr />
-                            <h5 class="card-text text-black">@blog.Description</h5>
-                            <hr />
-                            <a class="more-link btn btn-warning" asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">Read more &rarr;</a>
-                        </div>
-                    </div>
+                <div class="btn btn-warning d-flex align-items-center justify-content-center">
+                    <a class="text-white font-weight-bold"asp-controller="Blogs" asp-action="Edit" asp-route-id="@blog.Id">Edit</a> |
+                    <a class="text-white font-weight-bold"asp-controller="Blogs" asp-action="Details" asp-route-id="@blog.Id">Details</a> |
+                    <a class="text-white font-weight-bold"asp-controller="Blogs" asp-action="Delete" asp-route-id="@blog.Id">Delete</a>
                 </div>
             }
-        </div>
+        }
     </div>
-    <hr />
-</section>
-@*<section class="ftco-section">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 text-center">
+            <div class="col h3">
+                Page @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) of @Model.PageCount
             </div>
-            <div class="col-md-12">
-                <div class="featured-carousel owl-carousel">
-                    @foreach (var post in Model)
-                    {
-                        <div class="item">
-                            <div class="work">
-                                <div class="img d-flex align-items-center justify-content-center rounded">
-                                    <img class="img-fluid" style="width:100%" src=@_fileService.DecodeImage(post.ImageData, post.ContentType) alt="card image cap">
-                                </div>
-                                <div class="text pt-3 w-100 text-center">
-                                    <h3 class="font-weight-bold text-white">@Html.DisplayFor(modelItem => post.Title)</h3>
-                                    <h3 class="font-weight-bold text-white"><em>Posted on @Html.DisplayFor(modelItem => post.Created)</em></h3>
-                                    <hr />
-                                </div>
-                                <div class="text pt-3 w-100 text-center">
-                                    <h3 class="text-white">@Html.DisplayFor(modelItem => post.Abstract)</h3>
-                                </div>
-                                <a asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug" class="btn btn-warning d-flex align-items-center justify-content-center">
-                                    <h6 class="text-white font-weight-bold">Read Full Post</h6> &rarr;
-                                </a>
-                            </div>
-                            @if (User.IsInRole("Administrator"))
-                            {
-                                <div class="btn btn-warning d-flex align-items-center justify-content-center">
-                                    <a class="text-white font-weight-bold" asp-action="Edit" asp-route-id="@post.Id">Edit</a> |
-                                    <a class="text-white font-weight-bold" asp-action="Details" asp-route-slug="@post.Slug">Details</a> |
-                                    <a class="text-white font-weight-bold" asp-action="Delete" asp-route-id="@post.Id">Delete</a>
-                                </div>
-                            }
-                        </div>
-                    }
-                </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+               new PagedListRenderOptions
+               {
+                   LiElementClasses = new string[] { "page-item" },
+                   PageClasses = new string[] { "page-link" }
+               })
             </div>
         </div>
     </div>
-</section>*@
-<div class="row">
-    <div class="col h3">
-        Page @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) of @Model.PageCount
-    </div>
-</div>
+</section>
 
-<div class="row">
-    <div class="col">
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
-       new PagedListRenderOptions
-       {
-           LiElementClasses = new string[] { "page-item" },
-           PageClasses = new string[] { "page-link" }
-       })
-    </div>
-</div>
