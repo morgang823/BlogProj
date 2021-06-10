@@ -5,35 +5,52 @@
 @{
     ViewData["Title"] = "Create";
 }
-<div class="container-lg">
-<h1 class="text-black font-weight-bolder">Create A Blog Series</h1>
-<hr />
-<div class="row">
-    <div class="col-lg-12 col-md-auto col-sm-auto">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-black font-weight-bolder" enctype="multipart/form-data"></div>
-            <div class="form-group text-black font-weight-bold">
-                <label asp-for="Title" class="control-label text-black font-weight-bold"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-black font-weight-bold"></span>
+<section class="cta-section bg-warning py-5">
+    <div class="container text-center">
+        <h1 class="heading">
+            Small Bytes and Serial
+        </h1>
+        <div class=" heading text-center">
+            <h1>
+                <i class="fa fa-database" aria-hidden="true"></i>
+                <i class="fa fa-coffee" aria-hidden="true"></i>
+                <i class="fa fa-code-fork" aria-hidden="true"></i>
+            </h1>
+        </div>
+        <div class="intro"><h2>Quick reads on programming, goes well with Coffee.</h2></div>
+    </div><!--//container-->
+</section>
+<section class="cta-section px-3 py-5 p-md-5">
+    <div class="container-lg">
+        <h1 class="text-white font-weight-bolder">Create A Blog Series</h1>
+        <hr />
+        <div class="row">
+            <div class="col-lg-12 col-md-auto col-sm-auto">
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-black font-weight-bolder" enctype="multipart/form-data"></div>
+                    <div class="form-group text-white font-weight-bold">
+                        <label asp-for="Title" class="control-label text-white font-weight-bold"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-black font-weight-bold"></span>
+                    </div>
+                    <div class="form-group text-white font-weight-bold">
+                        <label asp-for="Description" class="control-label text-white font-weight-bold"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-black font-weight-bold"></span>
+                    </div>
+                    <div class="form-group text-white font-weight-bold">
+                        <label asp-for="ImageFile" class="control-label text-white font-weight-bold">Custom Image</label>
+                        <input id="newProfileImage" type="file" asp-for="ImageFile" class="form-control" />
+                        <span asp-validation-for="ImageFile" class="text-black font-weight-bold"></span>
+                    </div>
+                    <div class="form-group text-lg-center">
+                        <input type="submit" value="Create" class="btn-block btn-warning text-lg font-weight-bold" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group text-black font-weight-bold">
-                <label asp-for="Description" class="control-label text-black font-weight-bold"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-black font-weight-bold"></span>
-            </div>
-            <div class="form-group text-black font-weight-bold">
-                <label asp-for="ImageFile" class="control-label text-black font-weight-bold">Custom Image</label>
-                <input id="newProfileImage" type="file" asp-for="ImageFile" class="form-control" />
-                <span asp-validation-for="ImageFile" class="text-black font-weight-bold"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-warning" />
-            </div>
-        </form>
+        </div>
+        <div>
+            <a class="btn-block text-center btn-primary font-weight-bold" asp-action="Index">Back to List</a>
+        </div>
     </div>
-</div>
-<div>
-    <a class="btn btn-warning" asp-action="Index">Back to List</a>
-</div>
-</div>
+</section>

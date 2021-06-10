@@ -6,49 +6,64 @@
 @{
     ViewData["Title"] = "Create";
 }
+<section class="cta-section bg-warning py-5">
+    <div class="container text-center">
+        <h1 class="heading">
+            Small Bytes and Serial
+        </h1>
+        <div class=" heading text-center">
+            <h1>
+                <i class="fa fa-database" aria-hidden="true"></i>
+                <i class="fa fa-coffee" aria-hidden="true"></i>
+                <i class="fa fa-code-fork" aria-hidden="true"></i>
+            </h1>
+        </div>
+        <div class="intro"><h2>Quick reads on programming, goes well with Coffee.</h2></div>
+    </div><!--//container-->
+</section>
 <div class="container-lg">
-<h1 class="text-black">Create Post</h1>
+<h1 class="text-white">Create Post</h1>
 <hr />
     <div class="row">
         <div class="col-lg-12 col-md-auto col-sm-auto">
             <form asp-action="Create" enctype="multipart/form-data" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="text-white"></div>
                 <div class="form-group">
-                    <label asp-for="BlogId" class="control-label"></label>
+                    <label asp-for="BlogId" class="control-label text-white font-weight-bold"></label>
                     <select asp-for="BlogId" class="form-control" asp-items="ViewBag.BlogId"></select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Title" class="control-label"></label>
+                    <label asp-for="Title" class="control-label text-white font-weight-bold"></label>
                     <input asp-for="Title" class="form-control" />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Abstract" class="control-label"></label>
+                    <label asp-for="Abstract" class="control-label text-white font-weight-bold"></label>
                     <input asp-for="Abstract" class="form-control" />
                     <span asp-validation-for="Abstract" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Content" class="control-label"></label>
-                    <textarea class="form-control bg-white container-xl" asp-for="Content" rows="12"></textarea>
+                    <label asp-for="Content" class="control-label text-white font-weight-bold"></label>
+                    <textarea class="form-control-lg bg-white"  asp-for="Content" rows="12"></textarea>
                 </div>
                 <div class="form-group">
-                    <label asp-for="PublishState" class="control-label"></label>
+                    <label asp-for="PublishState" class="control-label text-white font-weight-bold"></label>
                     <select asp-for="PublishState" class="form-control" asp-items="@Html.GetEnumSelectList<PublishState>()"></select>
                     <span asp-validation-for="PublishState" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="ImageFile" class="control-label"></label>
+                    <label asp-for="ImageFile" class="control-label text-white font-weight-bold"></label>
                     <input type="file" asp-for="ImageFile" class="form-control" />
                     <span asp-validation-for="ImageFile" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="Create" class="btn btn-warning" />
                 </div>
             </form>
         </div>
     </div>
 
     <div>
-        <a asp-action="Index">Back to List</a>
+        <a class="btn btn-primary" asp-action="Index">Back to List</a>
     </div>
 </div>

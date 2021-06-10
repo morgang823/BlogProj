@@ -9,17 +9,24 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
-
-
-<section class="cta-section theme-bg-light py-5">
+<section class="cta-section bg-warning py-5">
     <div class="container text-center">
-        <h2 class="heading">Small Bytes and Serial</h2>
-        <div class="intro">Welcome to my blog. Subscribe and get my latest blog post in your inbox.</div>
+        <h1 class="heading">
+            Small Bytes and Serial
+        </h1>
+        <div class=" heading text-center">
+            <h1>
+                <i class="fa fa-database" aria-hidden="true"></i>
+                <i class="fa fa-coffee" aria-hidden="true"></i>
+                <i class="fa fa-code-fork" aria-hidden="true"></i>
+            </h1>
+        </div>
+        <div class="intro"><h2>Quick reads on programming, goes well with Coffee.</h2></div>
     </div><!--//container-->
 </section>
-<section class="blog-list px-3 py-5 p-md-5">
+<section class="blog-list px-3 py-5 p-md-5 theme-bg-dark">
     <div class="container-lg">
+        <h1 class="text-white">Blog Series</h1>
         @if (User.IsInRole("Administrator"))
         {
             <p class="text-white">
@@ -32,21 +39,33 @@
                 <div class="media row">
                     <img class="mr-3 img-fluid blog-nav d-none d-md-flex" style="width:100%" src=@_fileService.DecodeImage(blog.ImageData, blog.ContentType) alt="image">
                     <div class="media-body row align-content-center justify-content-center">
-                        <a class="btn btn-lg btn-warning" asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">Read more &rarr;</a>
+                        <a class="btn btn-lg btn-warning font-weight-bold" asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">Read more &rarr;</a>
                     </div><!--//media-body-->
                 </div><!--//media-->
-                <h3 class="title mb-1">@Html.DisplayFor(modelItem => blog.Title)</h3>
-                <div class="meta mb-1"><span class="date">@Html.DisplayFor(modelItem => blog.Description)</span></div>
-                <div class="intro">Last Updated on @Html.DisplayFor(modelItem => blog.Updated)</div>
+                <div class="row">
+                    <div class="col">
+                        <h2 class="text-white">@Html.DisplayFor(modelItem => blog.Title)</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <h1 class="title text-white"><span class="date">@Html.DisplayFor(modelItem => blog.Description)</span></h1>
+                    </div>
+                    <div class="col-6">
+                        <h1 class="title float-right text-white">Last Updated on @Html.DisplayFor(modelItem => blog.Updated)</h1>
+
+                    </div>
+                </div>
             </div><!--//item-->
             @if (User.IsInRole("Administrator"))
             {
                 <div class="btn btn-warning d-flex align-items-center justify-content-center">
-                    <a class="text-white font-weight-bold"asp-controller="Blogs" asp-action="Edit" asp-route-id="@blog.Id">Edit</a> |
-                    <a class="text-white font-weight-bold"asp-controller="Blogs" asp-action="Details" asp-route-id="@blog.Id">Details</a> |
-                    <a class="text-white font-weight-bold"asp-controller="Blogs" asp-action="Delete" asp-route-id="@blog.Id">Delete</a>
+                    <a class="text-white font-weight-bold" asp-controller="Blogs" asp-action="Edit" asp-route-id="@blog.Id">Edit</a> |
+                    <a class="text-white font-weight-bold" asp-controller="Blogs" asp-action="Details" asp-route-id="@blog.Id">Details</a> |
+                    <a class="text-white font-weight-bold" asp-controller="Blogs" asp-action="Delete" asp-route-id="@blog.Id">Delete</a>
                 </div>
             }
+            <hr />
         }
     </div>
     <div class="container">

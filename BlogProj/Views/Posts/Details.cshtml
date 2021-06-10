@@ -36,14 +36,39 @@
             <h3 class="text-black">@Html.Raw(Model.Content)</h3>*@
         
 
-
-            <div class="main-wrapper">
+<section class="cta-section bg-warning py-5">
+    <div class="container text-center">
+        <h1 class="heading">
+            Small Bytes and Serial
+        </h1>
+        <div class=" heading text-center">
+            <h1>
+                <i class="fa fa-database" aria-hidden="true"></i>
+                <i class="fa fa-coffee" aria-hidden="true"></i>
+                <i class="fa fa-code-fork" aria-hidden="true"></i>
+            </h1>
+        </div>
+        <div class="intro"><h2>Quick reads on programming, goes well with Coffee.</h2></div>
+    </div><!--//container-->
+</section>
+            <div class="container-lg">
 
                 <article class="blog-post px-3 py-5 p-md-5">
                         <header class="blog-post-header">
-                            <h2 class="title mb-2">@Html.DisplayFor(model => model.Title)</h2>
-                            <h3>@Html.DisplayFor(model => model.Abstract):</h3>
-                            <h3>Published @Html.DisplayFor(model => model.Created)</h3> <h3> @Model.Comments.Count Comment(s)</h3>
+                            <div class="row align-content-center justify-content-center">
+                                <h1 class="text-white mb-2">@Html.DisplayFor(model => model.Title)</h1>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <h2 class="text-white">Published @Html.DisplayFor(model => model.Created)</h2>
+
+                                </div>
+                                <div class="col">
+                                    <h2 class="text-white float-right"> @Model.Comments.Count Comment(s)</h2>
+                                </div>
+                            </div>
+                            <br />
+                            <h2 class="text-white">@Html.DisplayFor(model => model.Abstract):</h2>
                         </header>
 
                         <div class="blog-post-body">
