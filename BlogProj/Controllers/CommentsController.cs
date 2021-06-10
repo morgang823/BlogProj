@@ -103,7 +103,7 @@ namespace BlogProj.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,AuthorID,ImageData,ContentType,ModeratorID,Body,Created,Moderated,ModeratedBody,ModerationType")] Comment comment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,Author,AuthorId,ImageData,ContentType,ModeratorId,Body,Created,Moderated,ModeratedBody,ModerationType")] Comment comment)
         {
             if (id != comment.Id)
             {
@@ -118,12 +118,12 @@ namespace BlogProj.Controllers
                     var user = await _userManager.GetUserAsync(User);
                     string editNotice = $"Edited by: {user.FullName} <br />On: {DateTime.Now:MMM/dd/yyyy}<br />";
                     //End of edit notification
-
                     comment.Moderated = DateTime.Now;
                     if (comment.ModeratedBody is not null)
                     {
                         comment.ModeratedBody = editNotice + comment.ModeratedBody;
                         comment.Moderated = DateTime.Now;
+                        comment.ModeratorId = user.Id;
                     }
                     else
                     {
