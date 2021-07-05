@@ -116,7 +116,7 @@ namespace BlogProj
                 endpoints.MapControllerRoute(
                name: "SEORoute",
                pattern: "BlogPost/Details{slug}",
-                    defaults: new { controller = "Post", action = "Details" });
+                    defaults: new { controller = "Posts", action = "Details" });
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
